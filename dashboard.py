@@ -124,7 +124,9 @@ st.header("Genel Bakış")
 
 # Filtrelerin çalıştığını görmek için geçici olarak filtrelenmiş veriyi gösterelim.
 st.markdown("### Filtrelenmiş Veri Örneği (Test amaçlı)")
-st.dataframe(df_filtered.head())
+# verileri açılır kapanır pencerede gösterdim görüntü kirliliği olmaması için
+with st.expander("Filtrelenmiş Veri Örneğini Göster/Gizle (İlk 10 Satır)"):
+    st.dataframe(df_filtered.head(10))
 
 st.markdown("---")
 st.header("Grafik Bölümü (Yakında...)")
