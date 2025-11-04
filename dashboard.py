@@ -23,6 +23,16 @@ def load_data():
     try:
         # Veri setini yüklüyoruz.
         df = pd.read_csv("Final_data.csv")
+
+        # ----------------------------------------------------------------
+        # VERİ ÖN İŞLEME (Data Preprocessing) ADIMI
+        # ----------------------------------------------------------------
+        # Senin gözlemin üzerine: 'Age' sütununu tam sayıya çeviriyoruz.
+        # Bu, PDF'in 2. maddesinde istenen "Veri Ön İşleme" adımıdır.
+        if 'Age' in df.columns:
+            df['Age'] = df['Age'].astype(int)
+        # ----------------------------------------------------------------
+
         return df
     except FileNotFoundError:
         # Eğer 'Final_data.csv' bulunamazsa hata verir.
