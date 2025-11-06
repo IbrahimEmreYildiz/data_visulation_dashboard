@@ -82,7 +82,7 @@ selected_diets = st.sidebar.multiselect(
 
 
 selected_difficulty = st.sidebar.multiselect(
-    "Exercise Difficulty Level:",  # <- DEĞİŞTİ
+    "Exercise Difficulty Level:", 
     options=df['Difficulty Level'].unique(),
     default=df['Difficulty Level'].unique()
 )
