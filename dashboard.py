@@ -82,7 +82,7 @@ selected_diets = st.sidebar.multiselect(
 
 
 selected_difficulty = st.sidebar.multiselect(
-    "Exercise Difficulty Level:", 
+    "Exercise Difficulty Level:",
     options=df['Difficulty Level'].unique(),
     default=df['Difficulty Level'].unique()
 )
@@ -234,7 +234,7 @@ else:
 
     st.plotly_chart(fig3, use_container_width=True) # grafiği web sitesine gönderir. Ve sayfa genişliğine uyumlu yapar grafiği
 
-
+#------------------------------------------------EMRE SON-------------------------------------------------
 
 st.info("Remaining Charts: 6 (4 Advanced, 2 Medium)") # Bu da geriye kalan yapılması gereken grafikler kişi başı 2 zor 1 orta seviye grafik.
 
