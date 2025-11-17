@@ -3,7 +3,6 @@ import pandas as pd # veri okuma ve işleme yapmak için
 import plotly.express as px # grafik oluşturmak için
 import plotly.graph_objects as go # advanced (gelişmiş grafikler için)
 
-
 st.set_page_config( # sayfa ayarlarını düzenler streamlit kütüphanesinde tanımlı bir fonksiyon
     page_title="Life Style Data Analysis", # tarayıcıdaki başlık
     layout="wide" # sayfayı tüm ekrana yayar
@@ -183,7 +182,6 @@ else:
 st.markdown("---")# grafikler arası boşluk.
 
 
-st.subheader("Graph 3 (Advanced, Sankey Diagram): Flow from Diet Type to Workout Type (Sankey)")
 st.markdown(
     "This chart shows the flow of users between diet types and workout types. The thickness of the flow indicates the number of records.")
 
@@ -260,7 +258,11 @@ else:
 
 
 st.markdown("---")
+<<<<<<< Updated upstream
 st.subheader("Graph 5 (Advanced): Max BPM vs Average BPM")
+=======
+st.subheader("Graph 5 (Advanced, Scatter Plot): Max BPM vs Average BPM")
+>>>>>>> Stashed changes
 st.markdown("This scatter plot compares Max BPM and Average BPM.")
 
 scatter_data = df_filtered[["Max_BPM", "Avg_BPM"]].dropna()
@@ -278,9 +280,15 @@ else:
     )
     st.plotly_chart(fig5, use_container_width=True)
 
+<<<<<<< Updated upstream
   
 st.markdown("---")
 st.subheader("Graph 6 (Advanced): Diet → Workout → Difficulty Breakdown")
+=======
+
+st.markdown("---")
+st.subheader("Graph 6 (Advanced, Sunburst Chart): Diet → Workout → Difficulty Breakdown")
+>>>>>>> Stashed changes
 st.markdown("This hierarchical sunburst chart shows how diet types relate to workout types and difficulty levels.")
 
 sunburst_data = df_filtered.groupby(
@@ -310,5 +318,4 @@ else:
 # ------------------------------------------------ Kamal SON ------------------------------------------------ #
 
 
-st.info("Remaining Charts: 6 (4 Advanced, 2 Medium)") # Bu da geriye kalan yapılması gereken grafikler kişi başı 2 zor 1 orta seviye grafik.
 
