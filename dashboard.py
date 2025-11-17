@@ -278,24 +278,34 @@ else:
     )
     st.plotly_chart(fig5, use_container_width=True)
 
-
+  
 st.markdown("---")
-st.subheader("Graph 6 (Medium): Diet Type Distribution")
+st.subheader("Graph 6 (Advanced): Diet → Workout → Difficulty Breakdown")
+st.markdown("This hierarchical sunburst chart shows how diet types relate to workout types and difficulty levels.")
 
-pie_data = df_filtered["diet_type"].value_counts().reset_index()
-pie_data.columns = ["diet_type", "count"]
+sunburst_data = df_filtered.groupby(
+    ["diet_type", "Workout_Type", "Difficulty Level"]
+).size().reset_index(name="count")
 
-if pie_data.empty:
+if sunburst_data.empty:
     st.warning("No data found for Graph 6. Please widen your filters.")
 else:
-    fig6 = px.pie(
-        pie_data,
-        names="diet_type",
+    fig6 = px.sunburst(
+        sunburst_data,
+        path=["diet_type", "Workout_Type", "Difficulty Level"],
         values="count",
-        title="Distribution of Diet Types",
-        hole=0.3
+        color="diet_type",
+        title="Sunburst Breakdown of Diet → Workout → Difficulty",
+        maxdepth=-1  # show full depth
     )
+
+    fig6.update_layout(
+        margin=dict(t=50, l=25, r=25, b=25),
+        title_font_size=20
+    )
+
     st.plotly_chart(fig6, use_container_width=True)
+
 
 # ------------------------------------------------ Kamal SON ------------------------------------------------ #
 
