@@ -2,6 +2,7 @@ import streamlit as st # dashboard'un arayüzünü oluşturmak için
 import pandas as pd # veri okuma ve işleme yapmak için
 import plotly.express as px # grafik oluşturmak için
 import plotly.graph_objects as go # advanced (gelişmiş grafikler için)
+import statsmodels.api as sm
 
 st.set_page_config( # sayfa ayarlarını düzenler streamlit kütüphanesinde tanımlı bir fonksiyon
     page_title="Life Style Data Analysis", # tarayıcıdaki başlık
@@ -182,6 +183,7 @@ else:
 st.markdown("---")# grafikler arası boşluk.
 
 
+st.subheader("Graph 3 (Advanced, Sankey Diagram): Flow from Diet Type to Workout Type ")
 st.markdown(
     "This chart shows the flow of users between diet types and workout types. The thickness of the flow indicates the number of records.")
 
@@ -236,9 +238,14 @@ else:
 
 
 st.markdown("---")
+<<<<<<< Updated upstream
 st.header("Additional Charts Section")
 
 st.subheader("Graph 4 (Medium): Average BPM Across Age")
+=======
+
+st.subheader("Graph 4 (Medium, Line Chart): Average BPM Across Age")
+>>>>>>> Stashed changes
 st.markdown("This line chart shows how the average BPM varies by age.")
 
 line_data = df_filtered.groupby("Age")["Avg_BPM"].mean().reset_index()
@@ -316,6 +323,7 @@ else:
 
 
 # ------------------------------------------------ Kamal SON ------------------------------------------------ #
+
 
 
 
