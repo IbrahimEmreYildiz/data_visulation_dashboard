@@ -115,7 +115,7 @@ st.markdown("---")
 st.header("Chart Section")
 
 #chartın başlığı
-st.subheader("Graph 1 (Medium): Workout Type Distribution by Gender")
+st.subheader("Graph 1 (Medium, Grouped Bar Chart): Workout Type Distribution by Gender")
 st.markdown("This chart updates dynamically based on the filters selected in the sidebar.")
 
 
@@ -142,7 +142,7 @@ else:
 st.markdown("---")  # Separator line #grafikler arası ayıraç
 
 
-st.subheader("Graph 2 (Advanced): Exercise Distribution by Muscle Group and Difficulty")
+st.subheader("Graph 2 (Advanced, Treemap): Exercise Distribution by Muscle Group and Difficulty")
 st.markdown(
     "This Treemap hierarchically shows which muscle groups are targeted most, broken down by difficulty.")
 
@@ -183,7 +183,7 @@ else:
 st.markdown("---")# grafikler arası boşluk.
 
 
-st.subheader("Graph 3 (Advanced): Flow from Diet Type to Workout Type (Sankey)")
+st.subheader("Graph 3 (Advanced, Sankey Diagram): Flow from Diet Type to Workout Type (Sankey)")
 st.markdown(
     "This chart shows the flow of users between diet types and workout types. The thickness of the flow indicates the number of records.")
 
