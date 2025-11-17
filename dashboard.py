@@ -236,5 +236,69 @@ else:
 
 #------------------------------------------------EMRE SON-------------------------------------------------
 
+
+st.markdown("---")
+st.header("Additional Charts Section")
+
+st.subheader("Graph 4 (Medium): Average BPM Across Age")
+st.markdown("This line chart shows how the average BPM varies by age.")
+
+line_data = df_filtered.groupby("Age")["Avg_BPM"].mean().reset_index()
+
+if line_data.empty:
+    st.warning("No data found for Graph 4. Please widen your filters.")
+else:
+    fig4 = px.line(
+        line_data,
+        x="Age",
+        y="Avg_BPM",
+        markers=True,
+        title="Average BPM by Age",
+        labels={"Avg_BPM": "Average BPM", "Age": "Age"}
+    )
+    st.plotly_chart(fig4, use_container_width=True)
+
+
+st.markdown("---")
+st.subheader("Graph 5 (Advanced): Max BPM vs Average BPM")
+st.markdown("This scatter plot compares Max BPM and Average BPM.")
+
+scatter_data = df_filtered[["Max_BPM", "Avg_BPM"]].dropna()
+
+if scatter_data.empty:
+    st.warning("No data found for Graph 5. Please widen your filters.")
+else:
+    fig5 = px.scatter(
+        scatter_data,
+        x="Avg_BPM",
+        y="Max_BPM",
+        trendline="ols",
+        title="Scatter Plot: Max BPM vs Average BPM",
+        labels={"Avg_BPM": "Average BPM", "Max_BPM": "Max BPM"}
+    )
+    st.plotly_chart(fig5, use_container_width=True)
+
+
+st.markdown("---")
+st.subheader("Graph 6 (Medium): Diet Type Distribution")
+
+pie_data = df_filtered["diet_type"].value_counts().reset_index()
+pie_data.columns = ["diet_type", "count"]
+
+if pie_data.empty:
+    st.warning("No data found for Graph 6. Please widen your filters.")
+else:
+    fig6 = px.pie(
+        pie_data,
+        names="diet_type",
+        values="count",
+        title="Distribution of Diet Types",
+        hole=0.3
+    )
+    st.plotly_chart(fig6, use_container_width=True)
+
+# ------------------------------------------------ Kamal SON ------------------------------------------------ #
+
+
 st.info("Remaining Charts: 6 (4 Advanced, 2 Medium)") # Bu da geriye kalan yapılması gereken grafikler kişi başı 2 zor 1 orta seviye grafik.
 
