@@ -16,12 +16,8 @@ def load_data(): #veriyi yükleme fonksiyonu
 
         df = pd.read_csv("Final_data.csv")# pandas'ta veriyi dataframe(satır ve sütunlardan oluşan bir tablo) olarak yükler ve sonuç olarak tablo şekline dönüşür.
 
-
-
-
         if 'Age' in df.columns: # sütunlardaki age sütununun değerini floattan int yapar ki yaş değeri virgüllü olmasın diye
             df['Age'] = df['Age'].astype(int)
-
 
         cols_to_round = [ # bu da adından anlayacağımız üzere bu sütunları daha anlamlı olması için en yakın değere yuvarlar
             # örneğin bir insan spor salonunda 1.3 set hareket yapamaz veya haftada 3.2 gün spora gidemez
@@ -29,15 +25,17 @@ def load_data(): #veriyi yükleme fonksiyonu
             'Workout_Frequency (days/week)',
             'Daily meals frequency',
             'Sets',
-            'Reps'
+            'Reps',
+            'Max_BPM',
+            'Avg_BPM',
+            'Session_Duration (hours)'
         ]
 
         for col in cols_to_round:
             if col in df.columns:
 
-                df[col] = df[col].round(0).astype(int) # burada round fonksiyonu "." dan sonra sayı olmasın anlamında bir pandas fonksiyonudur
-                #yani önce yuvarla sonra integer yap yuvarlanınca 3.0 -> 3
-
+                df[col] = df[col].astype(float).round(0).astype(int) # burada round fonksiyonu "." dan sonra sayı olmasın anlamında bir pandas fonksiyonudur
+                # yani önce yuvarla sonra integer yap yuvarlanınca 3.0 -> 3
 
         return df
 
@@ -54,7 +52,6 @@ if df is None:
 
 st.sidebar.header("Dashboard Filters") #sidebar başlığı
 st.sidebar.markdown("Filters here will affect all charts on the page.") # filtreler tüm grafikleri etkiler demek.
-
 
 
 selected_genders = st.sidebar.multiselect(
@@ -209,7 +206,7 @@ else:
 
 st.markdown("---")
 
-
+#------------------------------------------------İBRAHİM EMRE YILDIZ-----------------------------------------------------
 
 
 st.subheader("Graph 4 (Medium, Line Chart): Average BPM Across Age")
@@ -280,5 +277,80 @@ else:
 
     st.plotly_chart(fig6, use_container_width=True)
 
+st.markdown("---")
 
-st.info("Remaining Charts: (2 Advanced, 1 Medium)")
+#-----------------------------------------------------KAMAL ASADOV------------------------------------------------------
+st.subheader("Graph A (Advanced, Scatter + Trendline): Weight vs Calories Burned")
+st.markdown("This chart displays the relationship between weight and calories burned, including a calculated trendline. It updates dynamically based on sidebar filters.")
+
+chart_data_A = df_filtered[['Weight (kg)', 'Calories_Burned']].dropna()
+
+if chart_data_A.empty:
+    st.warning("No data found for Graph A. Please widen your filters.")
+else:
+    # Trendline
+    m = ((chart_data_A['Weight (kg)'] * chart_data_A['Calories_Burned']).mean()
+         - chart_data_A['Weight (kg)'].mean() * chart_data_A['Calories_Burned'].mean()) / \
+        ((chart_data_A['Weight (kg)'] ** 2).mean()
+         - chart_data_A['Weight (kg)'].mean() ** 2)
+
+    b = chart_data_A['Calories_Burned'].mean() - m * chart_data_A['Weight (kg)'].mean()
+    chart_data_A['Trendline'] = m * chart_data_A['Weight (kg)'] + b
+
+    figA = px.scatter(
+        chart_data_A,
+        x='Weight (kg)',
+        y='Calories_Burned',
+        trendline="ols",  # Plotly kendi trendline'ını da çizer (üstüne eklenebilir)
+        title='Weight vs Calories Burned',
+        labels={'Weight (kg)': 'Weight (kg)', 'Calories_Burned': 'Calories Burned'}
+    )
+
+    st.plotly_chart(figA, use_container_width=True)
+
+st.markdown("---")
+
+
+st.subheader("Graph 8 (Advanced, Box Plot): Session Duration by Workout Type")
+st.markdown("This box plot compares session durations across different workout types. It updates based on filters in the sidebar.")
+
+chart_data_B = df_filtered[['Workout_Type', 'Session_Duration (hours)']].dropna()
+
+if chart_data_B.empty:
+    st.warning("No data found for Graph B. Please widen your filters.")
+else:
+    figB = px.box(
+        chart_data_B,
+        x='Workout_Type',
+        y='Session_Duration (hours)',
+        title='Session Duration by Workout Type',
+        labels={'Workout_Type': 'Workout Type', 'Session_Duration (hours)': 'Duration (hours)'}
+    )
+
+    st.plotly_chart(figB, use_container_width=True)
+
+st.markdown("---")
+
+
+st.subheader("Graph 9 (Medium, Histogram): Distribution of Max BPM")
+st.markdown("This histogram shows the distribution of maximum heart rate values among filtered records.")
+
+chart_data_C = df_filtered[['Max_BPM']].dropna()
+
+if chart_data_C.empty:
+    st.warning("No data found for Graph C. Please widen your filters.")
+else:
+    figC = px.histogram(
+        chart_data_C,
+        x='Max_BPM',
+        nbins=30,
+        title='Distribution of Max BPM',
+        labels={'Max_BPM': 'Max BPM'}
+    )
+
+    st.plotly_chart(figC, use_container_width=True)
+
+st.markdown("---")
+
+
+#------------------------------------------------------MUHLİS ÇOLAK--------------------------------------------------
