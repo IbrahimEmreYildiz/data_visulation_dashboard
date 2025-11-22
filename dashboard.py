@@ -280,33 +280,48 @@ else:
 st.markdown("---")
 
 #-----------------------------------------------------KAMAL ASADOV------------------------------------------------------
-st.subheader("Graph A (Advanced, Scatter + Trendline): Weight vs Calories Burned")
-st.markdown("This chart displays the relationship between weight and calories burned, including a calculated trendline. It updates dynamically based on sidebar filters.")
+st.subheader("Graph 7 (Advanced, Density Plot): Age Density by Gender")
+st.markdown("This chart updates dynamically based on the filters selected in the sidebar.")
 
-chart_data_A = df_filtered[['Weight (kg)', 'Calories_Burned']].dropna()
+# filtrelenmiş verilerden density data
+chart_data_density = df_filtered[['Age', 'Gender']].dropna()
 
-if chart_data_A.empty:
-    st.warning("No data found for Graph A. Please widen your filters.")
+if chart_data_density.empty:
+    st.warning("No data found for Density Plot. Please widen your filters.")
 else:
-    # Trendline
-    m = ((chart_data_A['Weight (kg)'] * chart_data_A['Calories_Burned']).mean()
-         - chart_data_A['Weight (kg)'].mean() * chart_data_A['Calories_Burned'].mean()) / \
-        ((chart_data_A['Weight (kg)'] ** 2).mean()
-         - chart_data_A['Weight (kg)'].mean() ** 2)
-
-    b = chart_data_A['Calories_Burned'].mean() - m * chart_data_A['Weight (kg)'].mean()
-    chart_data_A['Trendline'] = m * chart_data_A['Weight (kg)'] + b
-
-    figA = px.scatter(
-        chart_data_A,
-        x='Weight (kg)',
-        y='Calories_Burned',
-        trendline="ols",  # Plotly kendi trendline'ını da çizer (üstüne eklenebilir)
-        title='Weight vs Calories Burned',
-        labels={'Weight (kg)': 'Weight (kg)', 'Calories_Burned': 'Calories Burned'}
+    fig_density = px.density_contour(
+        chart_data_density,
+        x="Age",
+        color="Gender",
+        title="Age Density by Gender"
     )
 
-    st.plotly_chart(figA, use_container_width=True)
+    fig_density.update_traces(contours_coloring="fill", contours_showlabels=True)
+
+    # --- TİTREŞİMİ KESİN ÇÖZEN KISIM ---
+    # Sorun: Erkek ve Kadın için iki tane colorbar üst üste biniyordu.
+    # Çözüm: Önce hepsini kapatıyoruz, sonra sadece bir tanesini açıyoruz.
+    fig_density.update_traces(showscale=False)
+    if len(fig_density.data) > 0:
+        fig_density.data[0].showscale = True
+    # -----------------------------------
+
+    fig_density.update_layout(
+        # Legend (Male/Female) TEPEYE (Çakışmayı önlemek için)
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1
+        ),
+        # Renk barı yazı ayarı (Ekstra netlik için)
+        coloraxis_colorbar=dict(
+            tickfont=dict(size=12, family="Arial")
+        )
+    )
+
+    st.plotly_chart(fig_density, use_container_width=True)
 
 st.markdown("---")
 
