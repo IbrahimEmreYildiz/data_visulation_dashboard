@@ -13,14 +13,13 @@
 ---
 
 ## 📑 Table of Contents
-1. [Project Overview](#-project-overview)
-2. [Dataset Details](#-dataset-details)
-3. [Dashboard Preview](#-dashboard-preview)
-4. [Team & Roles](#-team--roles)
-5. [Technical Architecture](#-technical-architecture)
-6. [Key Insights](#-key-insights)
-7. [Installation Guide](#-installation-guide)
-8. [Future Roadmap](#-future-roadmap)
+1. [Dataset Details](#-dataset-details)
+2. [Dashboard Preview](#-dashboard-preview)
+3. [Team & Roles](#-team--roles)
+4. [Technical Architecture](#-technical-architecture)
+5. [Key Insights](#-key-insights)
+6. [Installation Guide](#-installation-guide)
+7. [Future Roadmap](#-future-roadmap)
 
 ---
 
@@ -94,4 +93,4 @@ Based on our visual analysis, we derived the following actionable insights:
 **Step 1: Clone the Repository**
 ```bash
 git clone [BURAYA_GITHUB_REPO_LINKINI_YAPISTIR]
-cd [REPO_KLASOR_ADI]
+cd [data_visulation_dashboard]
