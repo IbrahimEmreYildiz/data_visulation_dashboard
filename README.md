@@ -3,34 +3,95 @@
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue?style=for-the-badge&logo=python&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.28-ff4b4b?style=for-the-badge&logo=streamlit&logoColor=white)
 ![Plotly](https://img.shields.io/badge/Plotly-5.18-3F4F75?style=for-the-badge&logo=plotly&logoColor=white)
-![Status](https://img.shields.io/badge/Status-Completed-success?style=for-the-badge)
+![Data Scale](https://img.shields.io/badge/Data-20k_Rows-success?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-> **CEN445 - Introduction to Data Visualization Course Project**
-
-## 📖 Project Overview
-This interactive dashboard is designed to analyze the complex relationships between **lifestyle habits, nutritional intake, and physiological health**. Utilizing a large-scale dataset of **20,000 records**, the application visualizes how specific diet types influence workout intensity, tracks demographic health trends, and identifies correlations between heart rate efficiency and exercise experience.
-
-The dashboard leverages **Streamlit** for interactivity and **Plotly** for advanced, dynamic visualizations, offering users a deep dive into fitness analytics.
-
-## 📂 Dataset Information
-* **Dataset Name:** Gym Members Exercise Dataset
-* **Source:** [Kaggle Link](https://www.kaggle.com/datasets/valakhorasani/gym-members-exercise-dataset)
-* **Scale:** **20,000 Rows** (Significantly exceeds the course requirement of 2,000 rows).
-* **Key Attributes:** `Workout_Type`, `Session_Duration`, `Calories_Burned`, `BMI`, `Max_BPM`, `Avg_BPM`, `Diet_Type`, `Fat_Percentage`, `Water_Intake`.
-
-## ✨ Key Features
-* **Interactive Filtering:** Sidebar controls to filter data by Gender, Workout Type, Diet, and Difficulty Level.
-* **Advanced Visualizations:** Includes Sankey Diagrams, Sunburst Charts, Treemaps, and Density Contours.
-* **Data-Driven Insights:** Real-time calculation of trends based on user selection.
-* **Responsive Design:** Optimized layout using Streamlit's wide mode.
+> **CEN445 - Introduction to Data Visualization Course Project (Fall 2025)**
+>
+> *An interactive, data-driven dashboard exploring the intersection of nutritional habits, workout intensity, and physiological health using a large-scale dataset.*
 
 ---
 
-## 🏗️ Project Structure
-```bash
-├── dashboard.py           # Main application file (Streamlit App)
-├── Final_data.csv         # Processed Dataset (20k rows)
-├── requirements.txt       # Project dependencies
-├── README.md              # Project Documentation
-└── .gitignore             # Git ignore file
+## 📑 Table of Contents
+1. [Project Overview](#-project-overview)
+2. [Dataset Details](#-dataset-details)
+3. [Dashboard Preview](#-dashboard-preview)
+4. [Team & Roles](#-team--roles)
+5. [Technical Architecture](#-technical-architecture)
+6. [Key Insights](#-key-insights)
+7. [Installation Guide](#-installation-guide)
+8. [Future Roadmap](#-future-roadmap)
 
+---
+
+## 📌 Project Overview
+In the modern fitness landscape, data plays a pivotal role in optimizing performance. This project leverages the **Gym Members Exercise Dataset** to visualize complex correlations between lifestyle choices and health outcomes.
+
+**Core Objectives:**
+* **Analyze** the impact of diet types (e.g., Paleo, Vegan) on workout preferences.
+* **Visualize** demographic clusters to understand gym engagement trends.
+* **Correlate** physiological metrics (Heart Rate, BMI) with exercise intensity and experience levels.
+
+---
+
+## 📂 Dataset Details
+We utilized a high-dimensional dataset significantly exceeding the course requirements.
+
+* **Source:** [Gym Members Exercise Dataset (Kaggle)](https://www.kaggle.com/datasets/valakhorasani/gym-members-exercise-dataset)
+* **Volume:** **20,000 Records** (Rows) & 50+ Features (Columns).
+* **Key Variables:**
+    * **Categorical:** `Workout_Type`, `Diet_Type`, `Gender`, `Difficulty_Level`.
+    * **Numerical:** `Session_Duration`, `Calories_Burned`, `Max_BPM`, `Avg_BPM`, `BMI`.
+    * **Derived:** `Fat_Percentage`, `Water_Intake`.
+
+---
+
+## 👥 Team & Roles
+The development was structured into three specialized domains, delivering **9 distinct visualizations** (including 4 Advanced types).
+
+| Team Member | Domain | Key Contributions |
+| :--- | :--- | :--- |
+| **İbrahim Emre Yıldız** | • **System Design:** Built the Streamlit layout, Sidebar Logic, and Data Loading pipeline.<br>• **Sankey Diagram:** Mapped `Diet_Type` → `Workout_Type` flow.<br>• **Treemap:** Hierarchical view of Muscle Groups.<br>• **Bar Chart:** Demographic split analysis. |
+| **Kamal Asadov** | • **Multidimensional Analysis:** Developed the Sunburst Chart for `Diet` → `Workout` → `Difficulty` drill-down.<br>• **Correlation:** Scatter plots for `Max_BPM` vs `Avg_BPM`.<br>• **Time-Series:** Heart rate trends by age. |
+| **Muhlis Çolak** | • **Density Estimation:** Implemented Density Contours for Age/Gender clustering.<br>• **Outlier Detection:** Box Plots for session duration.<br>• **Distribution:** Histograms for heart rate frequencies. |
+
+---
+
+## ⚙️ Technical Architecture
+
+### Data Processing Pipeline
+The application includes a robust preprocessing engine (`load_data` function) that ensures data integrity before visualization:
+1.  **Data Loading:** Ingests `Final_data.csv` using Pandas.
+2.  **Type Casting:** Converts floating-point age and metric values to integers for cleaner UI display.
+3.  **Rounding Logic:** Applies rounding to specific columns (e.g., `Sets`, `Reps`, `BPM`) to reflect realistic fitness metrics.
+4.  **Error Handling:** Includes `try-except` blocks to gracefully handle missing dataset files.
+
+### Tech Stack
+* **Frontend:** `Streamlit` (Wide-layout optimized)
+* **Visualization Engine:** `Plotly Express` & `Plotly Graph Objects`
+* **Statistical Backend:** `Statsmodels` (OLS Regression), `NumPy`
+* **Data Manipulation:** `Pandas`
+
+---
+
+## 📊 Key Insights
+Based on our visual analysis, we derived the following actionable insights:
+
+1.  **Diet Dictates Intensity:**
+    * Users on **High-Protein Diets (Paleo, Keto)** significantly cluster around high-intensity workouts like *Strength Training* and *HIIT*.
+    * **Vegan/Vegetarian** users show a more balanced distribution, with a slight preference for *Yoga* and *Cardio*.
+
+2.  **The "Experience" Factor:**
+    * Scatter analysis reveals that users with higher *Experience Levels* maintain a lower *Average BPM* even during peak intensity sessions, indicating superior cardiovascular efficiency.
+
+3.  **Demographic Hotspots:**
+    * The Density Contour plot identifies the **Male, 25-35 Age Group** as the most active demographic, whereas Female participation is more evenly spread across the 20-40 range.
+
+---
+
+## 🚀 Installation Guide
+
+**Step 1: Clone the Repository**
+```bash
+git clone [BURAYA_GITHUB_REPO_LINKINI_YAPISTIR]
+cd [REPO_KLASOR_ADI]
