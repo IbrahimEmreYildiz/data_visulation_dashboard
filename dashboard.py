@@ -2,7 +2,7 @@ import streamlit as st # dashboard'un arayüzünü oluşturmak için
 import pandas as pd # veri okuma ve işleme yapmak için
 import plotly.express as px # grafik oluşturmak için
 import plotly.graph_objects as go # advanced (gelişmiş grafikler için)
-import statsmodels.api as sm
+
 
 st.set_page_config( # sayfa ayarlarını düzenler streamlit kütüphanesinde tanımlı bir fonksiyon
     page_title="Life Style Data Analysis", # tarayıcıdaki başlık
