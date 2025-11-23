@@ -92,5 +92,5 @@ Based on our visual analysis, we derived the following actionable insights:
 
 **Step 1: Clone the Repository**
 ```bash
-git clone [BURAYA_GITHUB_REPO_LINKINI_YAPISTIR]
+git clone [https://github.com/IbrahimEmreYildiz/data_visulation_dashboard]
 cd [data_visulation_dashboard]
