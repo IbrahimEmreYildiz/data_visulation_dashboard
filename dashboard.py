@@ -28,7 +28,7 @@ def load_data(): #veriyi yükleme fonksiyonu
             'Reps',
             'Max_BPM',
             'Avg_BPM',
-            'Session_Duration (hours)'
+
         ]
 
         for col in cols_to_round:
@@ -103,7 +103,7 @@ if select_all_muscle:
 else:
     selected_muscles = container_muscle.multiselect("Target Muscle Group:", options=all_muscles)
 
-# --- VERİ FİLTRELEME MANTIĞI ---
+
 df_filtered = df[
     df['Gender'].isin(selected_genders) &
     df['Workout_Type'].isin(selected_workouts) &
@@ -124,8 +124,8 @@ st.markdown(
 st.markdown("---")
 
 
-with st.expander("Show/Hide Filtered Data Sample (First 10 Rows)"): # filtrelenen veriler çok fazla olursa ilk 10 satırını gösterir.
-    st.dataframe(df_filtered.head(10))
+with st.expander("Show/Hide Filtered Data Sample (First 20 Rows)"): # filtrelenen veriler çok fazla olursa ilk 10 satırını gösterir.
+    st.dataframe(df_filtered.head(20))
 
 st.markdown("---")
 st.header("Chart Section")
@@ -306,42 +306,40 @@ st.markdown("---")
 st.subheader("Graph 7 (Advanced, Density Plot): Age Density by Gender")
 st.markdown("This chart updates dynamically based on the filters selected in the sidebar.")
 
-# filtrelenmiş verilerden density data
+
+# Veriyi hazırlıyoruz, sadece Yaş ve Cinsiyet lazım
 chart_data_density = df_filtered[['Age', 'Gender']].dropna()
 
 if chart_data_density.empty:
     st.warning("No data found for Density Plot. Please widen your filters.")
 else:
-    fig_density = px.density_contour(
+    # 1. RENK ÇÖZÜMÜ: Renkleri kesin olarak atıyoruz. Kırmızı ve Mavi.
+    color_map = {'Male': '#1f77b4', 'Female': '#d62728'} # Mavi ve Kırmızı kodları
+
+    fig_density = px.histogram(
         chart_data_density,
         x="Age",
         color="Gender",
-        title="Age Density by Gender"
+        color_discrete_map=color_map, # Renk haritamızı buraya ekledik
+        histnorm='probability density', # Çubuk yerine pürüzsüz eğri (density curve) çizmesini sağlar
+        title="Age Distribution Density by Gender (Smooth Curves)",
+        barmode="overlay", # Erkek ve kadın grafikleri üst üste binsin
+        opacity=0.6 # Saydamlık ekle ki üst üste binen yerler görünsün
     )
 
-    fig_density.update_traces(contours_coloring="fill", contours_showlabels=True)
-
-    # --- TİTREŞİMİ KESİN ÇÖZEN KISIM ---
-    # Sorun: Erkek ve Kadın için iki tane colorbar üst üste biniyordu.
-    # Çözüm: Önce hepsini kapatıyoruz, sonra sadece bir tanesini açıyoruz.
-    fig_density.update_traces(showscale=False)
-    if len(fig_density.data) > 0:
-        fig_density.data[0].showscale = True
-    # -----------------------------------
-
+    # Grafiğin genel görünüm ayarları
     fig_density.update_layout(
-        # Legend (Male/Female) TEPEYE (Çakışmayı önlemek için)
+        xaxis_title="Age",
+        yaxis_title="Density (Yoğunluk)",
         legend=dict(
-            orientation="h",
+            orientation="h", # Lejantı yatay yap
             yanchor="bottom",
-            y=1.02,
+            y=1.02, # Grafiğin üstüne al
             xanchor="right",
-            x=1
+            x=1,
+            title=None # 'Gender' başlığını kaldır, daha temiz dursun
         ),
-        # Renk barı yazı ayarı (Ekstra netlik için)
-        coloraxis_colorbar=dict(
-            tickfont=dict(size=12, family="Arial")
-        )
+        margin=dict(l=20, r=20, t=50, b=20) # Kenar boşluklarını ayarla
     )
 
     st.plotly_chart(fig_density, use_container_width=True)
@@ -376,7 +374,7 @@ st.markdown("This histogram shows the distribution of maximum heart rate values 
 chart_data_C = df_filtered[['Max_BPM']].dropna()
 
 if chart_data_C.empty:
-    st.warning("No data found for Graph C. Please widen your filters.")
+    st.warning("No data found for Graph 9. Please widen your filters.")
 else:
     figC = px.histogram(
         chart_data_C,
