@@ -50,43 +50,66 @@ if df is None:
     st.stop()
 
 
-st.sidebar.header("Dashboard Filters") #sidebar başlığı
-st.sidebar.markdown("Filters here will affect all charts on the page.") # filtreler tüm grafikleri etkiler demek.
+st.sidebar.header("Dashboard Filters")
+st.sidebar.markdown("Filters here will affect all charts on the page.")
 
 
-selected_genders = st.sidebar.multiselect(
-    "Gender:",
-    options=df['Gender'].unique(),
-    default=df['Gender'].unique()
-)
+all_genders = df['Gender'].unique().tolist()
+container_gender = st.sidebar.container()
+select_all_gender = st.sidebar.checkbox("Select All Genders", value=True, key="gender_all")
+
+if select_all_gender:
+    selected_genders = container_gender.multiselect("Gender:", options=all_genders, default=all_genders)
+else:
+    selected_genders = container_gender.multiselect("Gender:", options=all_genders)
 
 
-selected_workouts = st.sidebar.multiselect( # çok seçimli filtre ekranı
-    "Workout Type:",
-    options=df['Workout_Type'].unique(),
-    default=df['Workout_Type'].unique()
-)
+all_workouts = df['Workout_Type'].unique().tolist()
+container_workout = st.sidebar.container()
+select_all_workout = st.sidebar.checkbox("Select All Workout Types", value=True, key="workout_all")
+
+if select_all_workout:
+    selected_workouts = container_workout.multiselect("Workout Type:", options=all_workouts, default=all_workouts)
+else:
+    selected_workouts = container_workout.multiselect("Workout Type:", options=all_workouts)
 
 
-selected_diets = st.sidebar.multiselect(
-    "Diet Type:",
-    options=df['diet_type'].unique(),
-    default=df['diet_type'].unique()
-)
+all_diets = df['diet_type'].unique().tolist()
+container_diet = st.sidebar.container()
+select_all_diet = st.sidebar.checkbox("Select All Diet Types", value=True, key="diet_all")
+
+if select_all_diet:
+    selected_diets = container_diet.multiselect("Diet Type:", options=all_diets, default=all_diets)
+else:
+    selected_diets = container_diet.multiselect("Diet Type:", options=all_diets)
 
 
-selected_difficulty = st.sidebar.multiselect(
-    "Exercise Difficulty Level:",
-    options=df['Difficulty Level'].unique(),
-    default=df['Difficulty Level'].unique()
-)
+all_difficulties = df['Difficulty Level'].unique().tolist()
+container_diff = st.sidebar.container()
+select_all_diff = st.sidebar.checkbox("Select All Difficulty Levels", value=True, key="diff_all")
+
+if select_all_diff:
+    selected_difficulty = container_diff.multiselect("Exercise Difficulty Level:", options=all_difficulties, default=all_difficulties)
+else:
+    selected_difficulty = container_diff.multiselect("Exercise Difficulty Level:", options=all_difficulties)
 
 
-df_filtered = df[ # filtrelenmiş verileri içeren değişken ve bu satır seçtiğim filtreleri tek satırda yazdır demek
+all_muscles = df['Target Muscle Group'].unique().tolist()
+container_muscle = st.sidebar.container()
+select_all_muscle = st.sidebar.checkbox("Select All Muscle Groups", value=True, key="muscle_all")
+
+if select_all_muscle:
+    selected_muscles = container_muscle.multiselect("Target Muscle Group:", options=all_muscles, default=all_muscles)
+else:
+    selected_muscles = container_muscle.multiselect("Target Muscle Group:", options=all_muscles)
+
+# --- VERİ FİLTRELEME MANTIĞI ---
+df_filtered = df[
     df['Gender'].isin(selected_genders) &
     df['Workout_Type'].isin(selected_workouts) &
     df['diet_type'].isin(selected_diets) &
-    df['Difficulty Level'].isin(selected_difficulty)
+    df['Difficulty Level'].isin(selected_difficulty) &
+    df['Target Muscle Group'].isin(selected_muscles)
 ]
 
 
