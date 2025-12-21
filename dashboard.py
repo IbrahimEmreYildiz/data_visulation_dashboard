@@ -54,6 +54,17 @@ st.sidebar.header("Dashboard Filters")
 st.sidebar.markdown("Filters here will affect all charts on the page.")
 
 
+
+min_age = int(df['Age'].min())
+max_age = int(df['Age'].max())
+
+selected_age_range = st.sidebar.slider(
+    "Select Age Range:",
+    min_value=min_age,
+    max_value=max_age,
+    value=(min_age, max_age) # Başlangıçta tüm yaş aralığını seçer
+)
+
 all_genders = df['Gender'].unique().tolist()
 container_gender = st.sidebar.container()
 select_all_gender = st.sidebar.checkbox("Select All Genders", value=True, key="gender_all")
@@ -105,11 +116,12 @@ else:
 
 
 df_filtered = df[
-    df['Gender'].isin(selected_genders) &
-    df['Workout_Type'].isin(selected_workouts) &
-    df['diet_type'].isin(selected_diets) &
-    df['Difficulty Level'].isin(selected_difficulty) &
-    df['Target Muscle Group'].isin(selected_muscles)
+    (df['Gender'].isin(selected_genders)) &
+    (df['Workout_Type'].isin(selected_workouts)) &
+    (df['diet_type'].isin(selected_diets)) &
+    (df['Difficulty Level'].isin(selected_difficulty)) &
+    (df['Age'] >= selected_age_range[0]) &
+    (df['Age'] <= selected_age_range[1])
 ]
 
 
