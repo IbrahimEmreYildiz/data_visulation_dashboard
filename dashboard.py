@@ -244,51 +244,60 @@ st.markdown("---")
 #------------------------------------------------İBRAHİM EMRE YILDIZ-----------------------------------------------------
 
 
+# --- Grafik 4: Yaşa Göre Ortalama BPM (Çizgi Grafiği) ---
 st.subheader("Graph 4 (Medium, Line Chart): Average BPM Across Age")
 st.markdown("This line chart shows how the average BPM varies by age.")
 
+# Veriyi yaşa göre gruplayıp ortalama BPM değerini hesaplıyoruz
+# reset_index() kullanarak veriyi tekrar bir DataFrame formatına getiriyoruz
 line_data = df_filtered.groupby("Age")["Avg_BPM"].mean().reset_index()
 
+# Eğer filtrelemeler sonucu veri kalmadıysa kullanıcıyı uyarıyoruz
 if line_data.empty:
     st.warning("No data found for Graph 4. Please widen your filters.")
 else:
+    # Plotly Express ile çizgi grafiğini oluşturuyoruz
     fig4 = px.line(
         line_data,
-        x="Age",
-        y="Avg_BPM",
-        markers=True,
+        x="Age",           # X ekseni: Yaş
+        y="Avg_BPM",       # Y ekseni: Ortalama BPM
+        markers=True,      # Veri noktalarına işaretçi (marker) ekliyoruz
         title="Average BPM by Age",
-        labels={"Avg_BPM": "Average BPM", "Age": "Age"}
+        labels={"Avg_BPM": "Average BPM", "Age": "Age"} # Eksen etiketlerini düzenliyoruz
     )
+    # Grafiği Streamlit arayüzünde gösteriyoruz
     st.plotly_chart(fig4, use_container_width=True)
-
 
 st.markdown("---")
 
+# --- Grafik 5: Maksimum BPM vs Ortalama BPM (Dağılım Grafiği) ---
 st.subheader("Graph 5 (Advanced, Scatter Plot): Max BPM vs Average BPM")
 st.markdown("This scatter plot compares Max BPM and Average BPM.")
 
+# Boş (NaN) değerleri temizleyerek ilgili sütunları seçiyoruz
 scatter_data = df_filtered[["Max_BPM", "Avg_BPM"]].dropna()
 
 if scatter_data.empty:
     st.warning("No data found for Graph 5. Please widen your filters.")
 else:
+    # Scatter plot oluşturuyoruz
     fig5 = px.scatter(
         scatter_data,
-        x="Avg_BPM",
-        y="Max_BPM",
-        trendline="ols",
+        x="Avg_BPM",        # X ekseni
+        y="Max_BPM",        # Y ekseni
+        trendline="ols",    # Veriler arasındaki eğilimi göstermek için regresyon çizgisi ekliyoruz
         title="Scatter Plot: Max BPM vs Average BPM",
         labels={"Avg_BPM": "Average BPM", "Max_BPM": "Max BPM"}
     )
     st.plotly_chart(fig5, use_container_width=True)
 
-
 st.markdown("---")
 
+# --- Grafik 6: Diyet -> Antrenman -> Zorluk Kırılımı (Sunburst Grafiği) ---
 st.subheader("Graph 6 (Advanced, Sunburst Chart): Diet → Workout → Difficulty Breakdown")
 st.markdown("This hierarchical sunburst chart shows how diet types relate to workout types and difficulty levels.")
 
+# Hiyerarşik yapı için verileri gruplayıp her bir alt kırılımın sayısını (count) hesaplıyoruz
 sunburst_data = df_filtered.groupby(
     ["diet_type", "Workout_Type", "Difficulty Level"]
 ).size().reset_index(name="count")
@@ -296,15 +305,17 @@ sunburst_data = df_filtered.groupby(
 if sunburst_data.empty:
     st.warning("No data found for Graph 6. Please widen your filters.")
 else:
+    # Sunburst (Güneş Patlaması) grafiğini oluşturuyoruz
     fig6 = px.sunburst(
         sunburst_data,
-        path=["diet_type", "Workout_Type", "Difficulty Level"],
-        values="count",
-        color="diet_type",
+        path=["diet_type", "Workout_Type", "Difficulty Level"], # Hiyerarşi sırası
+        values="count",      # Dilimlerin büyüklüğünü belirleyen değer
+        color="diet_type",   # Renklendirme kriteri
         title="Sunburst Breakdown of Diet → Workout → Difficulty",
-        maxdepth=-1
+        maxdepth=-1          # Tüm alt seviyelerin gösterilmesini sağlar
     )
 
+    # Grafik yerleşimini (margin) ve başlık boyutunu güncelliyoruz
     fig6.update_layout(
         margin=dict(t=50, l=25, r=25, b=25),
         title_font_size=20
@@ -313,7 +324,6 @@ else:
     st.plotly_chart(fig6, use_container_width=True)
 
 st.markdown("---")
-
 #-----------------------------------------------------KAMAL ASADOV------------------------------------------------------
 st.subheader("Graph 7 (Advanced, Density Plot): Age Density by Gender")
 st.markdown("This chart updates dynamically based on the filters selected in the sidebar.")
