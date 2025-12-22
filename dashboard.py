@@ -122,7 +122,7 @@ df_filtered = df[
     (df['Difficulty Level'].isin(selected_difficulty)) &
     (df['Age'] >= selected_age_range[0]) &
     (df['Age'] <= selected_age_range[1]) &
-    (df['Target Muscle Group'].isin(selected_muscles)) 
+    (df['Target Muscle Group'].isin(selected_muscles))
 ]
 
 
@@ -201,7 +201,6 @@ else:
 
 st.markdown("---")
 
-
 st.subheader("Graph 3 (Advanced, Sankey Diagram): Flow from Diet Type to Workout Type")
 st.markdown(
     "This chart shows the flow of users between diet types and workout types. The thickness of the flow indicates the number of records.")
@@ -211,10 +210,25 @@ sankey_data = df_filtered.groupby(['diet_type', 'Workout_Type']).size().reset_in
 if sankey_data.empty:
     st.warning("No data found for Graph 3. Please widen your filters.")
 else:
-
+    # 1. Etiketleri oluşturma
     all_labels = list(sankey_data['diet_type'].unique()) + list(sankey_data['Workout_Type'].unique())
-
     label_to_id = {label: i for i, label in enumerate(all_labels)}
+
+    # 2. Renk Haritası (Diyet tiplerine göre ok rengi belirleyelim)
+    # Buradaki renkleri istediğin gibi değiştirebilirsin (Kırmızı, Mavi, Yeşil vb.)
+    color_map = {
+        'Vegan': 'rgba(31, 119, 180, 0.4)',  # Mavi tonu
+        'Keto': 'rgba(255, 127, 14, 0.4)',  # Turuncu tonu
+        'Paleo': 'rgba(44, 160, 44, 0.4)',  # Yeşil tonu
+        'High Protein': 'rgba(214, 39, 40, 0.4)',  # Kırmızı tonu
+        'Balanced': 'rgba(148, 103, 189, 0.4)'  # Mor tonu
+    }
+
+    # Eğer veri setinde farklı isimler varsa, varsayılan bir renk atayalım:
+    default_color = 'rgba(150, 150, 150, 0.3)'  # Gri tonu
+
+    # 3. Her bir link (ok) için renk listesi oluşturma
+    link_colors = [color_map.get(diet, default_color) for diet in sankey_data['diet_type']]
 
     fig3 = go.Figure(data=[go.Sankey(
         node=dict(
@@ -222,13 +236,14 @@ else:
             thickness=20,
             line=dict(color="black", width=0.5),
             label=all_labels,
-            color="blue"
+            color="royalblue"  # Düğümlerin genel rengi
         ),
 
         link=dict(
             source=sankey_data['diet_type'].map(label_to_id),
             target=sankey_data['Workout_Type'].map(label_to_id),
-            value=sankey_data['count']
+            value=sankey_data['count'],
+            color=link_colors  # RENKLER BURADA UYGULANIYOR
         )
     )])
 
