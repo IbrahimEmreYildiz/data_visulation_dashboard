@@ -121,7 +121,8 @@ df_filtered = df[
     (df['diet_type'].isin(selected_diets)) &
     (df['Difficulty Level'].isin(selected_difficulty)) &
     (df['Age'] >= selected_age_range[0]) &
-    (df['Age'] <= selected_age_range[1])
+    (df['Age'] <= selected_age_range[1]) &
+    (df['Target Muscle Group'].isin(selected_muscles)) 
 ]
 
 
@@ -136,7 +137,7 @@ st.markdown(
 st.markdown("---")
 
 
-with st.expander("Show/Hide Filtered Data Sample (First 20 Rows)"): # filtrelenen veriler çok fazla olursa ilk 10 satırını gösterir.
+with st.expander("Show/Hide Filtered Data Sample (First 20 Rows)"): # filtrelenen veriler çok fazla olursa ilk 20 satırını gösterir.
     st.dataframe(df_filtered.head(20))
 
 st.markdown("---")
